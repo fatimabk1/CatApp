@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		08A61D592C02AF1C00767CB0 /* CatAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D582C02AF1C00767CB0 /* CatAppApp.swift */; };
-		08A61D5B2C02AF1C00767CB0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D5A2C02AF1C00767CB0 /* ContentView.swift */; };
+		08A61D5B2C02AF1C00767CB0 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D5A2C02AF1C00767CB0 /* HomeScreenView.swift */; };
 		08A61D5D2C02AF1E00767CB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08A61D5C2C02AF1E00767CB0 /* Assets.xcassets */; };
 		08A61D602C02AF1E00767CB0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08A61D5F2C02AF1E00767CB0 /* Preview Assets.xcassets */; };
 		08A61D6A2C02AF1E00767CB0 /* CatAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D692C02AF1E00767CB0 /* CatAppTests.swift */; };
 		08A61D742C02AF1E00767CB0 /* CatAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D732C02AF1E00767CB0 /* CatAppUITests.swift */; };
 		08A61D762C02AF1E00767CB0 /* CatAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D752C02AF1E00767CB0 /* CatAppUITestsLaunchTests.swift */; };
+		08A61D862C02B31D00767CB0 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D852C02B31D00767CB0 /* Cat.swift */; };
+		08A61D882C02B32E00767CB0 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D872C02B32E00767CB0 /* Banner.swift */; };
+		08A61D8C2C02B6A200767CB0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D8B2C02B6A200767CB0 /* NetworkManager.swift */; };
+		08A61D8F2C02B6F800767CB0 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D8E2C02B6F800767CB0 /* MockNetworkManager.swift */; };
+		08A61D942C02BA3E00767CB0 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D932C02BA3E00767CB0 /* DetailView.swift */; };
+		08A61D962C02BAA600767CB0 /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D952C02BAA600767CB0 /* HomeScreenViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +42,7 @@
 /* Begin PBXFileReference section */
 		08A61D552C02AF1C00767CB0 /* CatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08A61D582C02AF1C00767CB0 /* CatAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAppApp.swift; sourceTree = "<group>"; };
-		08A61D5A2C02AF1C00767CB0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		08A61D5A2C02AF1C00767CB0 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		08A61D5C2C02AF1E00767CB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08A61D5F2C02AF1E00767CB0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		08A61D652C02AF1E00767CB0 /* CatAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CatAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +50,12 @@
 		08A61D6F2C02AF1E00767CB0 /* CatAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CatAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08A61D732C02AF1E00767CB0 /* CatAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAppUITests.swift; sourceTree = "<group>"; };
 		08A61D752C02AF1E00767CB0 /* CatAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		08A61D852C02B31D00767CB0 /* Cat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
+		08A61D872C02B32E00767CB0 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
+		08A61D8B2C02B6A200767CB0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		08A61D8E2C02B6F800767CB0 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		08A61D932C02BA3E00767CB0 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		08A61D952C02BAA600767CB0 /* HomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,9 +106,14 @@
 		08A61D572C02AF1C00767CB0 /* CatApp */ = {
 			isa = PBXGroup;
 			children = (
-				08A61D582C02AF1C00767CB0 /* CatAppApp.swift */,
-				08A61D5A2C02AF1C00767CB0 /* ContentView.swift */,
+				08A61D8A2C02B68800767CB0 /* Protocols */,
+				08A61D892C02B4F400767CB0 /* Services */,
 				08A61D5C2C02AF1E00767CB0 /* Assets.xcassets */,
+				08A61D582C02AF1C00767CB0 /* CatAppApp.swift */,
+				08A61D842C02B2EC00767CB0 /* ViewModels */,
+				08A61D832C02B2E600767CB0 /* Views */,
+				08A61D8D2C02B6DD00767CB0 /* Networking */,
+				08A61D822C02B2DD00767CB0 /* Models */,
 				08A61D5E2C02AF1E00767CB0 /* Preview Content */,
 			);
 			path = CatApp;
@@ -125,6 +142,55 @@
 				08A61D752C02AF1E00767CB0 /* CatAppUITestsLaunchTests.swift */,
 			);
 			path = CatAppUITests;
+			sourceTree = "<group>";
+		};
+		08A61D822C02B2DD00767CB0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				08A61D852C02B31D00767CB0 /* Cat.swift */,
+				08A61D872C02B32E00767CB0 /* Banner.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		08A61D832C02B2E600767CB0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				08A61D5A2C02AF1C00767CB0 /* HomeScreenView.swift */,
+				08A61D932C02BA3E00767CB0 /* DetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		08A61D842C02B2EC00767CB0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				08A61D952C02BAA600767CB0 /* HomeScreenViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		08A61D892C02B4F400767CB0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		08A61D8A2C02B68800767CB0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				08A61D8B2C02B6A200767CB0 /* NetworkManager.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		08A61D8D2C02B6DD00767CB0 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				08A61D8E2C02B6F800767CB0 /* MockNetworkManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +323,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08A61D5B2C02AF1C00767CB0 /* ContentView.swift in Sources */,
+				08A61D8F2C02B6F800767CB0 /* MockNetworkManager.swift in Sources */,
+				08A61D962C02BAA600767CB0 /* HomeScreenViewModel.swift in Sources */,
+				08A61D5B2C02AF1C00767CB0 /* HomeScreenView.swift in Sources */,
+				08A61D882C02B32E00767CB0 /* Banner.swift in Sources */,
+				08A61D942C02BA3E00767CB0 /* DetailView.swift in Sources */,
+				08A61D8C2C02B6A200767CB0 /* NetworkManager.swift in Sources */,
 				08A61D592C02AF1C00767CB0 /* CatAppApp.swift in Sources */,
+				08A61D862C02B31D00767CB0 /* Cat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,8 +500,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -437,9 +509,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = fatimabk.CatApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -457,8 +532,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -466,9 +541,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = fatimabk.CatApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
