@@ -10,6 +10,7 @@ import Combine
 
 enum NetworkError: Error {
     case noInternet
+    case badURL
 }
 
 final class MockNetworkManager: NetworkManager {
@@ -38,6 +39,19 @@ final class MockNetworkManager: NetworkManager {
             self.queue.async { [weak self] in
                 guard let self else { return }
                 promise(.success(banners))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func fetchCatDetail(catId: String) -> AnyPublisher<Cat, NetworkError> {
+        return Future<Cat, NetworkError> { promise in
+            self.queue.async { [weak self] in
+                guard let self else { return }
+                if let cat = self.cats.first(where: {$0.id == catId}) {
+                    promise(.success(cat))
+                }
+                promise(.failure(.noInternet)) // TODO: tailored network errors
             }
         }
         .eraseToAnyPublisher()

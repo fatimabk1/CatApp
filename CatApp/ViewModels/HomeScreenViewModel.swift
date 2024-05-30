@@ -17,52 +17,74 @@ final class HomeScreenViewModel: ObservableObject {
     @Published var catFetchError: Bool = false
     @Published var bannerFetchError: Bool = false
     
-    let title = "Cat Tree"
-    
-    private let networkManager: NetworkManager
-    private var cancellables = Set<AnyCancellable>()
-    
-    init(networkManager: NetworkManager = MockNetworkManager()) {
-        self.networkManager = networkManager
-        calculateCategories()
+    @Published var selectedCategory: String? = nil
+    var filteredCats: [Cat] {
+        if let selectedCategory {
+            if selectedCategory == "" {
+                return cats
+            }
+            return cats.filter({$0.categories.contains(selectedCategory)})
+        }
+        return cats
     }
     
-    func calculateCategories() {
-        // TODO: START HERE
-        /*
-         - calculate categories with map / flat map
-         - buid UI & test
-         - look into combine for networking, retrying, handling errors, refresh on swipe down
-         */
-        $cats
-            .sink { cats in
-                var categorySet = Set<String>()
-//                let catCategories = cats.compactMap(Cat.)
-            }
-            .store(in: &cancellables)
+    let title = "Cat Tree"
+    
+    private let endpointService = EndPointService()
+    private let networkService = NetworkService()
+    private var cancellables = Set<AnyCancellable>()
+    
+    init() {
     }
     
     func handleOnAppear() {
-        networkManager.fetchCats()
-            .sink(receiveCompletion: { [weak self] completion in
-                if case .failure(_) = completion {
-                    self?.catFetchError = true
-                }
-            }, receiveValue: { [weak self] cats in
-                self?.cats = cats
-            })
-            .store(in: &cancellables)
-        
-
-        networkManager.fetchBanners()
-            .sink(receiveCompletion: { [weak self] completion in
-                if case .failure(_) = completion {
-                    self?.bannerFetchError = true
-                }
-            }, receiveValue: { [weak self] banners in
-                self?.banners = banners
-            })
-            .store(in: &cancellables)
+        fetchCats()
+        fetchBanners()
+    }
+    
+    private func fetchCats() {
+        let catsUrl = endpointService.getURL(endpoint: .cats)
+        switch catsUrl {
+        case .success(let url):
+            networkService.fetch(url: url)
+                .receive(on: RunLoop.main)
+                .sink(receiveCompletion: { [weak self] completion in
+                    if case .failure(_) = completion {
+                        print("failed to complete")
+                        print(completion)
+                        self?.catFetchError = true
+                    }
+                }, receiveValue: { [weak self] (cats: [Cat]) in
+                    guard let self else { return }
+                    self.cats = cats
+                    let catCategories = cats.compactMap({$0.categories})
+                    self.categories = Array(Set(catCategories.flatMap({$0})))
+                })
+                .store(in: &cancellables)
+            
+        case .failure(_):
+            print("invalid URL")
+            self.catFetchError = true
+        }
+    }
+    
+    private func fetchBanners() {
+        let bannerURL = endpointService.getURL(endpoint: .banners)
+        switch bannerURL {
+        case .success(let url):
+            networkService.fetch(url: url)
+                .receive(on: RunLoop.main)
+                .sink(receiveCompletion: { [weak self] completion in
+                    if case .failure(_) = completion {
+                        self?.bannerFetchError = true
+                    }
+                }, receiveValue: { [weak self] (banners: [Banner]) in
+                    self?.banners = banners
+                })
+                .store(in: &cancellables)
+        case .failure(_):
+            self.bannerFetchError = true
+        }
     }
     
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Cat {
+struct Cat: Decodable {
     var id: String
     var name: String
     var date: String
@@ -16,6 +16,42 @@ struct Cat {
     var sex: String
     var likes: Int
     var categories: [String]
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case name
+        case date
+        case picture
+        case sex
+        case likes
+        case categories
+    }
+    
+    init(id: String, name: String, date: String, picture: String, sex: String, likes: Int, categories: [String]) {
+        self.id = id
+        self.name = name
+        self.date = date
+        self.picture = picture
+        self.sex = sex
+        self.likes = likes
+        self.categories = categories
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.date = try container.decode(String.self, forKey: .date)
+        self.picture = try container.decode(String.self, forKey: .picture)
+        self.sex = try container.decode(String.self, forKey: .sex)
+        self.likes = try container.decode(Int.self, forKey: .likes)
+        
+        if let categories = try? container.decodeIfPresent([String].self, forKey: .categories) {
+            self.categories = categories
+        } else  {
+            self.categories = []
+        }
+    }
 }
 
 extension Cat {

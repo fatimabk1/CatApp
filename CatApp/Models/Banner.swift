@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Banner {
+struct Banner: Decodable {
     var id: String
     var name: String
     var date: String

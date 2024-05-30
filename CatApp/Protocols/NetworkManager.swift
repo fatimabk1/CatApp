@@ -11,4 +11,5 @@ import Combine
 protocol NetworkManager {
     func fetchCats() -> AnyPublisher<[Cat], NetworkError>
     func fetchBanners() -> AnyPublisher<[Banner], NetworkError>
+    func fetchCatDetail(catId: String) -> AnyPublisher<Cat, NetworkError>
 }
