@@ -17,28 +17,50 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-               Image(systemName: "photo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding()
-                    .border(.red)
-                if let cat = viewModel.cat {
-                    Text(cat.name)
-                        .font(.title)
-                    Text(cat.sex)
-                    Text(viewModel.categories)
-                    Text(cat.date)
+        VStack {
+            Text(viewModel.cat?.name ?? "")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.top)
+            ScrollView {
+                VStack(alignment: .leading) {
+                    if viewModel.catDetailStatus == .loading {
+                        Image(systemName: "rectangle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .redacted(reason: .placeholder)
+                    } else if viewModel.catDetailStatus == .loaded {
+                        RemoteImage(picture: viewModel.picture)
+                    }
+                    
+                    if let cat = viewModel.cat {
+                        Text(cat.sex)
+                        Text(viewModel.categories)
+                        Text(cat.date)
+                    } else {
+                        detailPlaceholder
+                    }
                 }
-                if viewModel.catFetchError {
-                    Text("\nUnable to fetch cat detail.")
-                }
+                .padding()
             }
-            .padding()
         }
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.loadCatDetailOnAppear()
+        }
+    }
+    
+    private var detailPlaceholder: some View {
+        VStack {
+            Text("Mittens")
+                .font(.title)
+                .redacted(reason: .placeholder)
+            Text("Male")
+                .redacted(reason: .placeholder)
+            Text("Cute, Cuddly, Shy")
+                .redacted(reason: .placeholder)
+            Text("Today's Date")
+                .redacted(reason: .placeholder)
         }
     }
 }

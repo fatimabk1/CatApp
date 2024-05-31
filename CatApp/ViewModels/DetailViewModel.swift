@@ -13,9 +13,14 @@ final class DetailViewModel: ObservableObject {
     let catId: String
     
     @Published var cat: Cat? = nil
-    @Published var catFetchError = false
+    @Published var catDetailStatus: Status = .loading
+    
     var categories: String {
         cat?.categories.joined(separator: ", ") ?? ""
+    }
+    
+    var picture: String {
+        cat?.picture ?? ""
     }
     
     private let endpointService = EndPointService()
@@ -34,19 +39,20 @@ final class DetailViewModel: ObservableObject {
                 .receive(on: RunLoop.main)
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure(_) = completion {
-                        print("failed to complete")
+                        print("failed to complete - fetch cat detail")
                         print(completion)
-                        self?.catFetchError = true
+                        self?.catDetailStatus = .error
                     }
                 }, receiveValue: { [weak self] (cat: Cat) in
                     guard let self else { return }
                     self.cat = cat
+                    self.catDetailStatus = .loaded
                 })
                 .store(in: &cancellables)
             
         case .failure(_):
             print("invalid URL")
-            self.catFetchError = true
+            self.catDetailStatus = .error
         }
     }
 

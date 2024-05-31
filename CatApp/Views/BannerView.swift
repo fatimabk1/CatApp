@@ -7,14 +7,16 @@
 
 import SwiftUI
 
+
+
 struct BannerView:  View {
     let banner: Banner
+    let width: CGFloat = 100
+    let height: CGFloat = 140
     
     var body: some View {
         HStack {
-            Image(systemName: "photo")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            RemoteImage(picture: banner.picture, width: width, height: height)
                 .padding(.trailing)
             VStack(alignment: .leading) {
                 Text(banner.name)
@@ -38,7 +40,7 @@ struct BannerView:  View {
                 }
             }
         }
-        .frame(height: 75)
+        .frame(width: .infinity, height: 100)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 15)
@@ -49,5 +51,10 @@ struct BannerView:  View {
 }
 
 #Preview {
-    BannerView(banner: Banner.sampleData[0])
+    VStack {
+        BannerView(banner: Banner.sampleData[0])
+        BannerView(banner: Banner.sampleData[1])
+        BannerView(banner: Banner.sampleData[2])
+        BannerView(banner: Banner.sampleData[3])
+    }
 }

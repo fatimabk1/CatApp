@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+
+
 struct CategoryView:  View {
     let category: String
-    @Binding var selectedCategory: String?
+    @Binding var selectedCategory: String
     var isSelected: Bool { selectedCategory == category }
     
     var body: some View {

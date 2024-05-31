@@ -11,7 +11,16 @@
 		0835CF2B2C08D3BF00EB3848 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF2A2C08D3BF00EB3848 /* BannerView.swift */; };
 		0835CF2D2C08D3CC00EB3848 /* CatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF2C2C08D3CC00EB3848 /* CatView.swift */; };
 		0835CF2F2C08D3D800EB3848 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF2E2C08D3D800EB3848 /* CategoryView.swift */; };
-		0835CF312C08DDBF00EB3848 /* RealNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF302C08DDBF00EB3848 /* RealNetworkManager.swift */; };
+		0835CF312C08DDBF00EB3848 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF302C08DDBF00EB3848 /* NetworkService.swift */; };
+		0835CF332C0A0DA000EB3848 /* BannerPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF322C0A0DA000EB3848 /* BannerPlaceholder.swift */; };
+		0835CF352C0A104700EB3848 /* CatPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF342C0A104700EB3848 /* CatPlaceholder.swift */; };
+		0835CF392C0A1F0000EB3848 /* CategoryPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF382C0A1F0000EB3848 /* CategoryPlaceholder.swift */; };
+		0835CF3B2C0A1FC600EB3848 /* EndPointService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF3A2C0A1FC600EB3848 /* EndPointService.swift */; };
+		0835CF3D2C0A1FF000EB3848 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF3C2C0A1FF000EB3848 /* APIError.swift */; };
+		0835CF3F2C0A1FFE00EB3848 /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF3E2C0A1FFE00EB3848 /* EndPoints.swift */; };
+		0835CF412C0A200B00EB3848 /* EndPointError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF402C0A200B00EB3848 /* EndPointError.swift */; };
+		0835CF432C0A259A00EB3848 /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF422C0A259A00EB3848 /* ImageLoaderService.swift */; };
+		0835CF452C0A271E00EB3848 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0835CF442C0A271E00EB3848 /* RemoteImage.swift */; };
 		08A61D592C02AF1C00767CB0 /* CatAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D582C02AF1C00767CB0 /* CatAppApp.swift */; };
 		08A61D5B2C02AF1C00767CB0 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A61D5A2C02AF1C00767CB0 /* HomeScreenView.swift */; };
 		08A61D5D2C02AF1E00767CB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08A61D5C2C02AF1E00767CB0 /* Assets.xcassets */; };
@@ -49,7 +58,16 @@
 		0835CF2A2C08D3BF00EB3848 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		0835CF2C2C08D3CC00EB3848 /* CatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatView.swift; sourceTree = "<group>"; };
 		0835CF2E2C08D3D800EB3848 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
-		0835CF302C08DDBF00EB3848 /* RealNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNetworkManager.swift; sourceTree = "<group>"; };
+		0835CF302C08DDBF00EB3848 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		0835CF322C0A0DA000EB3848 /* BannerPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPlaceholder.swift; sourceTree = "<group>"; };
+		0835CF342C0A104700EB3848 /* CatPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatPlaceholder.swift; sourceTree = "<group>"; };
+		0835CF382C0A1F0000EB3848 /* CategoryPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPlaceholder.swift; sourceTree = "<group>"; };
+		0835CF3A2C0A1FC600EB3848 /* EndPointService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointService.swift; sourceTree = "<group>"; };
+		0835CF3C2C0A1FF000EB3848 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		0835CF3E2C0A1FFE00EB3848 /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
+		0835CF402C0A200B00EB3848 /* EndPointError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointError.swift; sourceTree = "<group>"; };
+		0835CF422C0A259A00EB3848 /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
+		0835CF442C0A271E00EB3848 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		08A61D552C02AF1C00767CB0 /* CatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08A61D582C02AF1C00767CB0 /* CatAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAppApp.swift; sourceTree = "<group>"; };
 		08A61D5A2C02AF1C00767CB0 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
@@ -93,6 +111,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0835CF362C0A108400EB3848 /* Placeholders */ = {
+			isa = PBXGroup;
+			children = (
+				0835CF322C0A0DA000EB3848 /* BannerPlaceholder.swift */,
+				0835CF342C0A104700EB3848 /* CatPlaceholder.swift */,
+				0835CF382C0A1F0000EB3848 /* CategoryPlaceholder.swift */,
+			);
+			path = Placeholders;
+			sourceTree = "<group>";
+		};
+		0835CF372C0A108C00EB3848 /* Loading Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Loading Views";
+			sourceTree = "<group>";
+		};
 		08A61D4C2C02AF1C00767CB0 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +200,8 @@
 		08A61D832C02B2E600767CB0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0835CF372C0A108C00EB3848 /* Loading Views */,
+				0835CF362C0A108400EB3848 /* Placeholders */,
 				08A61D5A2C02AF1C00767CB0 /* HomeScreenView.swift */,
 				08A61D932C02BA3E00767CB0 /* DetailView.swift */,
 				0835CF2A2C08D3BF00EB3848 /* BannerView.swift */,
@@ -195,7 +232,13 @@
 			isa = PBXGroup;
 			children = (
 				08A61D8E2C02B6F800767CB0 /* MockNetworkManager.swift */,
-				0835CF302C08DDBF00EB3848 /* RealNetworkManager.swift */,
+				0835CF302C08DDBF00EB3848 /* NetworkService.swift */,
+				0835CF3A2C0A1FC600EB3848 /* EndPointService.swift */,
+				0835CF3C2C0A1FF000EB3848 /* APIError.swift */,
+				0835CF3E2C0A1FFE00EB3848 /* EndPoints.swift */,
+				0835CF402C0A200B00EB3848 /* EndPointError.swift */,
+				0835CF422C0A259A00EB3848 /* ImageLoaderService.swift */,
+				0835CF442C0A271E00EB3848 /* RemoteImage.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -330,19 +373,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0835CF432C0A259A00EB3848 /* ImageLoaderService.swift in Sources */,
 				0835CF2B2C08D3BF00EB3848 /* BannerView.swift in Sources */,
+				0835CF412C0A200B00EB3848 /* EndPointError.swift in Sources */,
 				08A61D8F2C02B6F800767CB0 /* MockNetworkManager.swift in Sources */,
 				0835CF2F2C08D3D800EB3848 /* CategoryView.swift in Sources */,
 				08A61D962C02BAA600767CB0 /* HomeScreenViewModel.swift in Sources */,
 				0835CF2D2C08D3CC00EB3848 /* CatView.swift in Sources */,
+				0835CF3B2C0A1FC600EB3848 /* EndPointService.swift in Sources */,
+				0835CF392C0A1F0000EB3848 /* CategoryPlaceholder.swift in Sources */,
+				0835CF332C0A0DA000EB3848 /* BannerPlaceholder.swift in Sources */,
+				0835CF3F2C0A1FFE00EB3848 /* EndPoints.swift in Sources */,
 				08A61D5B2C02AF1C00767CB0 /* HomeScreenView.swift in Sources */,
 				08A61D882C02B32E00767CB0 /* Banner.swift in Sources */,
 				0835CF292C08CBFF00EB3848 /* DetailViewModel.swift in Sources */,
 				08A61D942C02BA3E00767CB0 /* DetailView.swift in Sources */,
+				0835CF452C0A271E00EB3848 /* RemoteImage.swift in Sources */,
 				08A61D8C2C02B6A200767CB0 /* NetworkManager.swift in Sources */,
+				0835CF352C0A104700EB3848 /* CatPlaceholder.swift in Sources */,
 				08A61D592C02AF1C00767CB0 /* CatAppApp.swift in Sources */,
-				0835CF312C08DDBF00EB3848 /* RealNetworkManager.swift in Sources */,
+				0835CF312C08DDBF00EB3848 /* NetworkService.swift in Sources */,
 				08A61D862C02B31D00767CB0 /* Cat.swift in Sources */,
+				0835CF3D2C0A1FF000EB3848 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

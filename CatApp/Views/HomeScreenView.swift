@@ -15,12 +15,6 @@ struct HomeScreenView: View {
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                if viewModel.catFetchError {
-                    Text("Error: Failed to load cats")
-                }
-                if viewModel.bannerFetchError {
-                    Text("Error: Failed to load banners")
-                }
                 VStack {
                     scrollableBanners
                     scrollableCategories
@@ -34,28 +28,63 @@ struct HomeScreenView: View {
         }
     }
     
+    @ViewBuilder
     private var scrollableBanners: some View {
-        ScrollView(.horizontal, showsIndicators: false){
-            HStack {
-                ForEach(viewModel.banners, id: \.id) { banner in
-                    BannerView(banner: banner)
+        switch viewModel.bannerStatus {
+        case .empty:
+            EmptyView()
+        case .loading:
+            ScrollView(.horizontal, showsIndicators: false){
+                HStack {
+                    ForEach(0..<2) { _ in
+                        BannerPlaceholder()
+                    }
                 }
+                .padding()
             }
-            .padding()
+        case .loaded:
+            ScrollView(.horizontal, showsIndicators: false){
+                HStack {
+                    ForEach(viewModel.banners, id: \.id) { banner in
+                        BannerView(banner: banner)
+                    }
+                }
+                .padding()
+            }
+        case .error:
+            BannerPlaceholder() // TODO: update w/error view
         }
     }
     
+    @ViewBuilder
     private var scrollableCategories: some View {
-        ScrollView(.horizontal, showsIndicators: false){
-            HStack {
-                ForEach(viewModel.categories, id: \.self) { category in
-                    CategoryView(category: category, selectedCategory: $viewModel.selectedCategory)
+        switch viewModel.categoryStatus {
+        case .empty:
+            EmptyView()
+        case .loading:
+            ScrollView(.horizontal, showsIndicators: false){
+                HStack {
+                    ForEach(0..<5) { _ in
+                        CategoryPlaceholder()
+                    }
                 }
+                .padding()
             }
-            .padding()
+        case .loaded:
+            ScrollView(.horizontal, showsIndicators: false){
+                HStack {
+                    ForEach(viewModel.categories, id: \.self) { category in
+                        CategoryView(category: category, selectedCategory: $viewModel.selectedCategory)
+                    }
+                }
+                .padding()
+            }
+        case .error:
+            CategoryPlaceholder() // TODO: update w/error view
         }
     }
     
+    @ViewBuilder
     private var catCollection: some View {
         var columns: [GridItem] {
             if twoColumns {
@@ -65,22 +94,36 @@ struct HomeScreenView: View {
             }
         }
         
-        return VStack {
-            Button {
-                twoColumns.toggle()
-            } label: {
-                Image(systemName: twoColumns ? "rectangle.grid.2x2" : "rectangle.grid.1x2")
-            }
-            .padding(.trailing)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(viewModel.filteredCats, id: \.id) { cat in
-                        CatView(cat: cat)
-                    }
+        switch viewModel.catStatus {
+        case .empty:
+            EmptyView()
+        case .loading:
+            LazyVGrid(columns: columns) {
+                ForEach(0..<4) { _ in
+                    CatPlaceholder()
                 }
             }
             .padding()
+        case .loaded:
+            VStack {
+                Button {
+                    twoColumns.toggle()
+                } label: {
+                    Image(systemName: twoColumns ? "rectangle.grid.2x2" : "rectangle.grid.1x2")
+                }
+                .padding(.trailing)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                ScrollView {
+                    LazyVGrid(columns: columns) {
+                        ForEach(viewModel.filteredCats, id: \.id) { cat in
+                            CatView(cat: cat, twoColumns: twoColumns)
+                        }
+                    }
+                }
+                .padding()
+            }
+        case .error:
+            CatPlaceholder() // TODO: update w/error view
         }
     }
 }

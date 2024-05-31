@@ -8,27 +8,32 @@
 import Foundation
 import Combine
 
+enum Status {
+    case loading
+    case loaded
+    case empty
+    case error
+}
+
 
 final class HomeScreenViewModel: ObservableObject {
     @Published var banners: [Banner] = []
     @Published var cats: [Cat] = []
     @Published var categories: [String] = []
     
-    @Published var catFetchError: Bool = false
-    @Published var bannerFetchError: Bool = false
+    @Published var catStatus: Status = .loading
+    @Published var bannerStatus: Status = .loading
+    @Published var categoryStatus: Status = .loading
     
-    @Published var selectedCategory: String? = nil
+    @Published var selectedCategory = ""
     var filteredCats: [Cat] {
-        if let selectedCategory {
-            if selectedCategory == "" {
-                return cats
-            }
-            return cats.filter({$0.categories.contains(selectedCategory)})
+        if selectedCategory == "" {
+            return cats
         }
-        return cats
+        return cats.filter({$0.categories.contains(selectedCategory)})
     }
     
-    let title = "Cat Tree"
+    let title = "Cats"
     
     private let endpointService = EndPointService()
     private let networkService = NetworkService()
@@ -50,21 +55,24 @@ final class HomeScreenViewModel: ObservableObject {
                 .receive(on: RunLoop.main)
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure(_) = completion {
-                        print("failed to complete")
+                        print("failed to complete - fetch cats")
                         print(completion)
-                        self?.catFetchError = true
+                        self?.catStatus = .error
                     }
                 }, receiveValue: { [weak self] (cats: [Cat]) in
                     guard let self else { return }
                     self.cats = cats
+                    self.catStatus = cats.isEmpty ? .empty : .loaded
+                    
                     let catCategories = cats.compactMap({$0.categories})
                     self.categories = Array(Set(catCategories.flatMap({$0})))
+                    self.categoryStatus = categories.isEmpty ? .empty : .loaded
                 })
                 .store(in: &cancellables)
             
         case .failure(_):
             print("invalid URL")
-            self.catFetchError = true
+            self.catStatus = .error
         }
     }
     
@@ -76,14 +84,15 @@ final class HomeScreenViewModel: ObservableObject {
                 .receive(on: RunLoop.main)
                 .sink(receiveCompletion: { [weak self] completion in
                     if case .failure(_) = completion {
-                        self?.bannerFetchError = true
+                        self?.bannerStatus = .error
                     }
                 }, receiveValue: { [weak self] (banners: [Banner]) in
                     self?.banners = banners
+                    self?.bannerStatus = banners.isEmpty ? .empty : .loaded
                 })
                 .store(in: &cancellables)
         case .failure(_):
-            self.bannerFetchError = true
+            self.bannerStatus = .error
         }
     }
     

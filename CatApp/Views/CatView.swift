@@ -7,8 +7,17 @@
 
 import SwiftUI
 
+
+
 struct CatView:  View {
     let cat: Cat
+    let twoColumns: Bool
+    var width: CGFloat {
+        twoColumns ? .infinity : 150
+    }
+    var height: CGFloat {
+        twoColumns ? .infinity : 200
+    }
     var categories: String {
         cat.categories.joined(separator: ", ").capitalized
     }
@@ -18,11 +27,8 @@ struct CatView:  View {
             DetailView(catId: cat.id)
         } label: {
             VStack(alignment: .leading) {
-                Image(systemName: "photo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    .padding(.bottom)
+                RemoteImage(picture: cat.picture, width: width, height: height)
+
                 HStack {
                     Text(cat.name)
                         .font(.title3)
@@ -62,13 +68,15 @@ struct CatView:  View {
         [GridItem(), GridItem()]
     }
     
-    return VStack {
-        ScrollView {
-            LazyVGrid(columns: columns) {
-                ForEach(Cat.sampleData, id: \.id) { cat in
-                    CatView(cat: cat)
-                       
+    return Group {
+        VStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 10) {
+                    ForEach(Cat.sampleData, id: \.id) { cat in
+                        CatView(cat: cat, twoColumns: true)
+                    }
                 }
+                .padding()
             }
         }
     }
