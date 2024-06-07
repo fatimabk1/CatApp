@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct CatAppApp: App {
     let networkService = NetworkService()
+//    let networkService = MockNetworkManager()
     
     var body: some Scene {
         WindowGroup {

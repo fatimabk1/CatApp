@@ -58,11 +58,23 @@ struct FrameModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         if let width, let height {
-            content.frame(width: width, height: height)
+            if width == .infinity || height == .infinity {
+                content.frame(maxWidth: width, maxHeight: height)
+            } else {
+                content.frame(width: width, height: height)
+            }
         } else if let width {
-            content.frame(width: width)
+            if width == .infinity{
+                content.frame(maxWidth: width)
+            } else {
+                content.frame(width: width)
+            }
         } else if let height {
-            content.frame(height: height)
+            if height == .infinity {
+                content.frame(maxHeight: height)
+            } else {
+                content.frame(height: height)
+            }
         } else {
             content
         }

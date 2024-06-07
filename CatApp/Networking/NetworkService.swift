@@ -37,7 +37,7 @@ final class NetworkService: NetworkManager {
                     return NetworkError.failedToComplete
                 }
             }
-            .retry(3)
+            .retry(6)
             .eraseToAnyPublisher()
     }
     
@@ -58,7 +58,7 @@ final class NetworkService: NetworkManager {
                     return NetworkError.failedToComplete
                 }
             }
-            .retry(3)
+            .retry(6)
             .eraseToAnyPublisher()
     }
     

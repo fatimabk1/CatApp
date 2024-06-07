@@ -34,9 +34,15 @@ struct DetailView: View {
                     }
                     
                     if let cat = viewModel.cat {
-                        Text(cat.sex)
-                        Text(viewModel.categories)
+                        Text(cat.sex.capitalized)
+                            .font(.title)
+                            .padding()
+                        Text(viewModel.categories.capitalized)
+                            .font(.title)
+                            .padding()
                         Text(cat.date)
+                            .font(.title)
+                            .padding()
                     } else {
                         detailPlaceholder
                     }

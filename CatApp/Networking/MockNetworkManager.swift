@@ -45,7 +45,7 @@ final class MockNetworkManager: NetworkManager {
     }
     
     func login() -> AnyPublisher<BearerToken, NetworkError> {
-        let tokenString = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc3NzQyMTQsInVzZXJuYW1lIjoidGVjaC1jaGFsbGVuZ2VAc2hvd3lvdXJjYXQuY29tIn0.Gcj2MLgIzTwBylkKFH3j85tIKiKAjOlxt92SeFssa28"
+        let tokenString = "mock-token"
         let token = BearerToken(token: tokenString)
         
         return Just(token)
@@ -81,7 +81,7 @@ final class MockNetworkManager: NetworkManager {
     }
     
     func fetchUserLikes() -> AnyPublisher<[Cat], NetworkError> {
-        return Just(cats)
+        return Just(userLikes)
             .setFailureType(to: NetworkError.self)
             .eraseToAnyPublisher()
     }
