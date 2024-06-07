@@ -12,8 +12,8 @@ import SwiftUI
 struct DetailView: View {
     @ObservedObject var viewModel: DetailViewModel
     
-    init(catId: String) {
-        viewModel = DetailViewModel(catId: catId)
+    init(catId: String, networkService: NetworkManager) {
+        viewModel = DetailViewModel(catId: catId, networkService: networkService)
     }
     
     var body: some View {
@@ -30,7 +30,7 @@ struct DetailView: View {
                             .aspectRatio(contentMode: .fit)
                             .redacted(reason: .placeholder)
                     } else if viewModel.catDetailStatus == .loaded {
-                        RemoteImage(picture: viewModel.picture)
+                        RemoteImage(picture: viewModel.picture, width: .infinity, height: 400)
                     }
                     
                     if let cat = viewModel.cat {
@@ -66,5 +66,8 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView(catId: "a233d4f2")
+    DetailView(catId: "a233d4f2", networkService: NetworkService())
+//    DetailView(catId: "ad4f2", networkService: NetworkService())
+        // TODO: ADD display for Error
+
 }

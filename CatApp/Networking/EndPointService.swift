@@ -10,30 +10,31 @@ import Foundation
 
 final class EndPointService {
     private let baseUrl             = "https://show-your-cat.onrender.com"
-    private let endpointBanners     = "/banner"
-    private let endpointCats        = "/cats/"
-    private let endpointSpecificCat = "/cats/"
-    //    private let endpointLogin       = "/auth/login"
-    //    private let endpointLike        = "/like"           // endpoint: /cats/<cat_id>/like
-    //    private let endpointUnlike      = "/unlike"           // endpoint: /cats/<cat_id>/unlike
-    //    private let endpointUserLikes   = "/user/likes"
+    private let endpointLike        = "/like"           // endpoint: /cats/<cat_id>/like
+    private let endpointUnlike      = "/unlike"           // endpoint: /cats/<cat_id>/unlike
+    private let endpointUserLikes   = "/user/likes"
     
-    func getURL(endpoint: EndPoints, parameter: String? = nil) -> Result<URL, EndPointError> {
-        var urlString = ""
+    func getURL(endpoint: EndPoints) -> Result<URL, NetworkError> {
+        var urlComponents = URLComponents(string: baseUrl)!
         
         switch endpoint {
         case .banners:
-            urlString = baseUrl + endpointBanners
+            urlComponents.path = "/banner"
         case .cats:
-            urlString = baseUrl + endpointCats
-        case .specificCat:
-            if let parameter {
-                urlString = baseUrl + endpointSpecificCat + parameter
-            }
+            urlComponents.path = "/cats/"
+        case .specificCat(let catId):
+            urlComponents.path = "/cats/\(catId)"
+        case .login:
+            urlComponents.path = "/auth/login"
+        case .like(let catId):
+            urlComponents.path = "/cats/\(catId)/like"
+        case .unlike(let catId):
+            urlComponents.path = "/cats/\(catId)/unlike"
+        case .userLikes:
+            urlComponents.path = "/user/likes"
         }
-        
-        guard let url = URL(string: urlString) else {
-            return .failure(.invalidURL)
+        guard let url = urlComponents.url else {
+            return .failure(.badURL)
         }
         return .success(url)
     }

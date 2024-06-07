@@ -8,22 +8,27 @@
 import Foundation
 import Combine
 
-enum Status {
-    case loading
-    case loaded
-    case empty
-    case error
-}
-
 
 final class HomeScreenViewModel: ObservableObject {
     @Published var banners: [Banner] = []
     @Published var cats: [Cat] = []
     @Published var categories: [String] = []
+    @Published var userLikes = Set<String>()
     
-    @Published var catStatus: Status = .loading
-    @Published var bannerStatus: Status = .loading
-    @Published var categoryStatus: Status = .loading
+    @Published var catStatus: LoadStatus = .loading
+    @Published var bannerStatus: LoadStatus = .loading
+    @Published var categoryStatus: LoadStatus = .loading
+    
+    @Published var twoColumnsCache: Bool
+    var twoColumns: Bool {
+        get {
+            return twoColumnsCache
+        }
+        set {
+            twoColumnsCache = newValue
+            UserDefaults.standard.set(twoColumnsCache, forKey: "twoColumns")
+        }
+    }
     
     @Published var selectedCategory = ""
     var filteredCats: [Cat] {
@@ -34,66 +39,84 @@ final class HomeScreenViewModel: ObservableObject {
     }
     
     let title = "Cats"
-    
-    private let endpointService = EndPointService()
-    private let networkService = NetworkService()
+    let networkService: NetworkManager
+    private let keychain = KeychainAccess.standard
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
+    init(networkService: NetworkManager = NetworkService()) {
+        self.networkService = networkService
+        self.twoColumnsCache = UserDefaults.standard.bool(forKey: "twoColumns")
     }
     
     func handleOnAppear() {
         fetchCats()
         fetchBanners()
+        fetchUserLikes()
+    }
+    
+    func isLoggedIn() -> Bool {
+        print("checking if logged in")
+        if keychain.read(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue) != nil {
+            return true
+        }
+        return false
+    }
+    
+    func onCatLikeUnlike() {
+        if isLoggedIn() {
+            fetchUserLikes()
+        } else {
+            print("onCatLikeUnlike - not loggedIn")
+        }
+    }
+    
+    private func fetchUserLikes() {
+        networkService.fetchUserLikes()
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                if case .failure(_) = completion {
+                    //TODO: ERROR HANDLING
+                }
+            }, receiveValue: { [weak self] (cats: [Cat]) in
+                print("onCatLikeUnlike: user like count = \(cats.count)")
+                self?.userLikes = Set(cats.map({$0.id}))
+            })
+            .store(in: &cancellables)
     }
     
     private func fetchCats() {
-        let catsUrl = endpointService.getURL(endpoint: .cats)
-        switch catsUrl {
-        case .success(let url):
-            networkService.fetch(url: url)
-                .receive(on: RunLoop.main)
-                .sink(receiveCompletion: { [weak self] completion in
-                    if case .failure(_) = completion {
-                        print("failed to complete - fetch cats")
-                        print(completion)
-                        self?.catStatus = .error
-                    }
-                }, receiveValue: { [weak self] (cats: [Cat]) in
-                    guard let self else { return }
-                    self.cats = cats
-                    self.catStatus = cats.isEmpty ? .empty : .loaded
-                    
-                    let catCategories = cats.compactMap({$0.categories})
-                    self.categories = Array(Set(catCategories.flatMap({$0})))
-                    self.categoryStatus = categories.isEmpty ? .empty : .loaded
-                })
-                .store(in: &cancellables)
-            
-        case .failure(_):
-            print("invalid URL")
-            self.catStatus = .error
-        }
+        networkService.fetchCats()
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                if case .failure(_) = completion {
+                    print("failed to complete - fetch cats")
+                    print(completion)
+                    self?.catStatus = .error
+                }
+            }, receiveValue: { [weak self] (cats: [Cat]) in
+                guard let self else { return }
+                self.cats = cats
+                self.catStatus = cats.isEmpty ? .empty : .loaded
+                
+                let catCategories = cats.compactMap({$0.categories})
+                self.categories = Array(Set(catCategories.flatMap({$0})))
+                self.categoryStatus = categories.isEmpty ? .empty : .loaded
+            })
+            .store(in: &cancellables)
     }
     
     private func fetchBanners() {
-        let bannerURL = endpointService.getURL(endpoint: .banners)
-        switch bannerURL {
-        case .success(let url):
-            networkService.fetch(url: url)
-                .receive(on: RunLoop.main)
-                .sink(receiveCompletion: { [weak self] completion in
-                    if case .failure(_) = completion {
-                        self?.bannerStatus = .error
-                    }
-                }, receiveValue: { [weak self] (banners: [Banner]) in
-                    self?.banners = banners
-                    self?.bannerStatus = banners.isEmpty ? .empty : .loaded
-                })
-                .store(in: &cancellables)
-        case .failure(_):
-            self.bannerStatus = .error
-        }
+        networkService.fetchBanners()
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                if case .failure(_) = completion {
+                    self?.bannerStatus = .error
+                }
+            }, receiveValue: { [weak self] (banners: [Banner]) in
+                self?.banners = banners
+                self?.bannerStatus = banners.isEmpty ? .empty : .loaded
+            })
+            .store(in: &cancellables)
     }
     
 }

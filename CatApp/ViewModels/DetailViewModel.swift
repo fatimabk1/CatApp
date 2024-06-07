@@ -11,9 +11,10 @@ import Combine
 
 final class DetailViewModel: ObservableObject {
     let catId: String
+    let networkService: NetworkManager
     
     @Published var cat: Cat? = nil
-    @Published var catDetailStatus: Status = .loading
+    @Published var catDetailStatus: LoadStatus = .loading
     
     var categories: String {
         cat?.categories.joined(separator: ", ") ?? ""
@@ -23,37 +24,27 @@ final class DetailViewModel: ObservableObject {
         cat?.picture ?? ""
     }
     
-    private let endpointService = EndPointService()
-    private let networkService = NetworkService()
     private var cancellables = Set<AnyCancellable>()
     
-    init(catId: String) {
+    init(catId: String, networkService: NetworkManager) {
         self.catId = catId
+        self.networkService = networkService
     }
     
     func loadCatDetailOnAppear() {
-        let catDetailURL = endpointService.getURL(endpoint: .specificCat, parameter: catId)
-        switch catDetailURL {
-        case .success(let url):
-            networkService.fetch(url: url)
-                .receive(on: RunLoop.main)
-                .sink(receiveCompletion: { [weak self] completion in
-                    if case .failure(_) = completion {
-                        print("failed to complete - fetch cat detail")
-                        print(completion)
-                        self?.catDetailStatus = .error
-                    }
-                }, receiveValue: { [weak self] (cat: Cat) in
-                    guard let self else { return }
-                    self.cat = cat
-                    self.catDetailStatus = .loaded
-                })
-                .store(in: &cancellables)
-            
-        case .failure(_):
-            print("invalid URL")
-            self.catDetailStatus = .error
-        }
+        networkService.fetchCatDetail(catId: catId)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                if case .failure(_) = completion {
+                    print("failed to complete - fetch cat detail")
+                    print(completion)
+                    self?.catDetailStatus = .error
+                }
+            }, receiveValue: { [weak self] (cat: Cat) in
+                guard let self else { return }
+                self.cat = cat
+                self.catDetailStatus = .loaded
+            })
+            .store(in: &cancellables)
     }
-
 }

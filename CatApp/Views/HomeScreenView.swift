@@ -9,8 +9,14 @@ import SwiftUI
 
 
 struct HomeScreenView: View {
-    @ObservedObject var viewModel = HomeScreenViewModel()
-    @State var twoColumns = true
+    @ObservedObject var viewModel: HomeScreenViewModel
+    @ObservedObject var profileViewModel: ProfileViewModel
+    
+    init(networkService: NetworkManager) {
+        self.viewModel = HomeScreenViewModel(networkService: networkService)
+        self.profileViewModel = ProfileViewModel(networkService: networkService)
+    }
+    
     
     var body: some View {
         NavigationStack {
@@ -22,6 +28,20 @@ struct HomeScreenView: View {
                 }
             }
             .navigationTitle("Cat Tree")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ProfileView(viewModel: profileViewModel)
+                    } label: {
+                        VStack {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                            Text("Profile")
+                        }
+                    }
+                }
+            }
         }
         .onAppear {
             viewModel.handleOnAppear()
@@ -46,7 +66,7 @@ struct HomeScreenView: View {
             ScrollView(.horizontal, showsIndicators: false){
                 HStack {
                     ForEach(viewModel.banners, id: \.id) { banner in
-                        BannerView(banner: banner)
+                        BannerView(banner: banner, networkService: viewModel.networkService)
                     }
                 }
                 .padding()
@@ -87,12 +107,13 @@ struct HomeScreenView: View {
     @ViewBuilder
     private var catCollection: some View {
         var columns: [GridItem] {
-            if twoColumns {
+            if viewModel.twoColumns {
                 [GridItem(.flexible()), GridItem(.flexible())]
             } else {
                 [GridItem(.flexible())]
             }
         }
+        
         
         switch viewModel.catStatus {
         case .empty:
@@ -107,16 +128,19 @@ struct HomeScreenView: View {
         case .loaded:
             VStack {
                 Button {
-                    twoColumns.toggle()
+                    viewModel.twoColumns.toggle()
                 } label: {
-                    Image(systemName: twoColumns ? "rectangle.grid.2x2" : "rectangle.grid.1x2")
+                    Image(systemName: viewModel.twoColumns ? "rectangle.grid.2x2" : "rectangle.grid.1x2")
                 }
                 .padding(.trailing)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach(viewModel.filteredCats, id: \.id) { cat in
-                            CatView(cat: cat, twoColumns: twoColumns)
+                            CatView(cat: cat, twoColumns: viewModel.twoColumns, isLoggedIn: profileViewModel.isLoggedIn, networkService: viewModel.networkService , isLiked: viewModel.userLikes.contains(cat.id))
+                            {
+                                viewModel.onCatLikeUnlike()
+                            }
                         }
                     }
                 }
@@ -130,12 +154,11 @@ struct HomeScreenView: View {
 
 
 #Preview {
-    HomeScreenView()
+    HomeScreenView(networkService: NetworkService())
 }
 
  
 /*
  POA
  - profile screen w/disabled login button
- - look into combine for networking, retrying, handling errors, refresh on swipe down
  */

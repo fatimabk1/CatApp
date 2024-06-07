@@ -9,48 +9,40 @@ import SwiftUI
 
 
 
+
 struct CatView:  View {
+    let viewModel: CatViewModel
+    
     let cat: Cat
-    let twoColumns: Bool
-    var width: CGFloat {
-        twoColumns ? .infinity : 150
-    }
-    var height: CGFloat {
-        twoColumns ? .infinity : 200
-    }
+    let onLikeUnlike: () -> Void
+    let isLoggedIn: Bool
     var categories: String {
         cat.categories.joined(separator: ", ").capitalized
+    }
+
+    init(cat: Cat, twoColumns: Bool, isLoggedIn: Bool, networkService: NetworkManager, isLiked: Bool, onLikeUnlike: @escaping () -> Void) {
+        self.cat = cat
+        self.isLoggedIn = isLoggedIn
+        viewModel = CatViewModel(twoColumns: twoColumns, networkService: networkService, isLiked: isLiked)
+        self.onLikeUnlike = onLikeUnlike
     }
     
     var body: some View {
         NavigationLink {
-            DetailView(catId: cat.id)
+            DetailView(catId: cat.id, networkService: viewModel.networkService)
         } label: {
             VStack(alignment: .leading) {
-                RemoteImage(picture: cat.picture, width: width, height: height)
-
+                RemoteImage(picture: cat.picture, height: viewModel.twoColumns ? 200 : 400)
                 HStack {
                     Text(cat.name)
                         .font(.title3)
                         .fontWeight(.bold)
                     Spacer()
                     Text("\(cat.likes)")
-                    Image(systemName: "heart")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 15)
+                    likeButton
                 }
                 .padding(.bottom, 5)
-                HStack {
-                    Text("Sex: ")
-                        .fontWeight(.semibold)
-                    Text(cat.sex.capitalized)
-                }
-                .padding(.bottom, 10)
-                Text("Categories: ")
-                    .fontWeight(.semibold)
-                Text(categories)
-                Spacer()
+                sexAndCategories
             }
             .padding()
             .background(
@@ -61,11 +53,57 @@ struct CatView:  View {
         .buttonStyle(.plain)
         .frame(maxHeight: .infinity)
     }
+    
+    private var likeButton: some View {
+        Button {
+            if isLoggedIn {
+                print("logged in, selected like button")
+                if viewModel.isLiked {
+                    print("currently liked - starting unlike")
+                    viewModel.unlike(catId: cat.id) {
+                        print("unlike complete, now refreshing")
+                        onLikeUnlike()
+                    }
+                } else {
+                    print("currently unliked - starting like")
+                    viewModel.like(catId: cat.id) {
+                        print("unlike complete, now refreshing")
+                        onLikeUnlike()
+                    }
+                }
+            } else {
+                print("Button tap - not logged in")
+            }
+        } label: {
+            Image(systemName: viewModel.isLiked ? "heart.fill" : "heart")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25)
+        }
+
+    }
+    
+    private var sexAndCategories: some View {
+        Group {
+            HStack {
+                Text("Sex: ")
+                    .fontWeight(.semibold)
+                Text(cat.sex.capitalized)
+            }
+            .padding(.bottom, 10)
+            Text("Categories: ")
+                .fontWeight(.semibold)
+            Text(categories)
+            Spacer()
+        }
+    }
 }
 
 #Preview {
     var columns: [GridItem] {
-        [GridItem(), GridItem()]
+        [GridItem(spacing: 10),
+//         GridItem(spacing: 10)
+        ]
     }
     
     return Group {
@@ -73,7 +111,7 @@ struct CatView:  View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(Cat.sampleData, id: \.id) { cat in
-                        CatView(cat: cat, twoColumns: true)
+                        CatView(cat: cat, twoColumns: false, isLoggedIn: true, networkService: MockNetworkManager(), isLiked: true) {}
                     }
                 }
                 .padding()

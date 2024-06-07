@@ -17,7 +17,7 @@ struct BannerPlaceholder: View {
                 .redacted(reason: .placeholder)
             VStack(alignment: .leading) {
                 Text("Banner Name Here")
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
                     .foregroundStyle(.primary)
                     .redacted(reason: .placeholder)
                 Text("Date")

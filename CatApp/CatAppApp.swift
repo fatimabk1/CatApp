@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct CatAppApp: App {
+    let networkService = NetworkService()
+    
     var body: some Scene {
         WindowGroup {
-            HomeScreenView()
+            HomeScreenView(networkService: networkService)
         }
     }
 }
