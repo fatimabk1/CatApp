@@ -10,11 +10,11 @@ import Combine
 
 
 final class DetailViewModel: ObservableObject {
-    let catId: String
-    let networkService: NetworkManager
-    
     @Published var cat: Cat? = nil
     @Published var catDetailStatus: LoadStatus = .loading
+    
+    let catId: String
+    let networkService: NetworkManager
     
     var categories: String {
         cat?.categories.joined(separator: ", ") ?? ""
@@ -37,7 +37,6 @@ final class DetailViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(_) = completion {
                     print("failed to complete - fetch cat detail")
-                    print(completion)
                     self?.catDetailStatus = .error
                 }
             }, receiveValue: { [weak self] (cat: Cat) in

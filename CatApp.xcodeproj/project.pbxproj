@@ -41,6 +41,8 @@
 		08D0DB622C12459E000F417C /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB612C12459E000F417C /* ProfileService.swift */; };
 		08D0DB642C124CA8000F417C /* CatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB632C124CA8000F417C /* CatViewModel.swift */; };
 		08D0DB662C12822D000F417C /* KeychainTokenKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB652C12822D000F417C /* KeychainTokenKey.swift */; };
+		08D0DB692C13521D000F417C /* FrameModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB682C13521D000F417C /* FrameModifier.swift */; };
+		08D0DB6C2C136DBE000F417C /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 08D0DB6B2C136DBE000F417C /* CachedAsyncImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,7 @@
 		08D0DB612C12459E000F417C /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		08D0DB632C124CA8000F417C /* CatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatViewModel.swift; sourceTree = "<group>"; };
 		08D0DB652C12822D000F417C /* KeychainTokenKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTokenKey.swift; sourceTree = "<group>"; };
+		08D0DB682C13521D000F417C /* FrameModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08D0DB6C2C136DBE000F417C /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +169,7 @@
 		08A61D572C02AF1C00767CB0 /* CatApp */ = {
 			isa = PBXGroup;
 			children = (
+				08D0DB672C135215000F417C /* Modifiers */,
 				08D0DB5E2C123ECA000F417C /* Keychain */,
 				08A61D8A2C02B68800767CB0 /* Protocols */,
 				08A61D5C2C02AF1E00767CB0 /* Assets.xcassets */,
@@ -173,8 +178,8 @@
 				08A61D832C02B2E600767CB0 /* Views */,
 				08A61D8D2C02B6DD00767CB0 /* Networking */,
 				08A61D822C02B2DD00767CB0 /* Models */,
-				08A61D5E2C02AF1E00767CB0 /* Preview Content */,
 				08D0DB542C10B610000F417C /* LoadStatus.swift */,
+				08A61D5E2C02AF1E00767CB0 /* Preview Content */,
 			);
 			path = CatApp;
 			sourceTree = "<group>";
@@ -272,6 +277,14 @@
 			path = Keychain;
 			sourceTree = "<group>";
 		};
+		08D0DB672C135215000F417C /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				08D0DB682C13521D000F417C /* FrameModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -288,6 +301,9 @@
 			dependencies = (
 			);
 			name = CatApp;
+			packageProductDependencies = (
+				08D0DB6B2C136DBE000F417C /* CachedAsyncImage */,
+			);
 			productName = CatApp;
 			productReference = 08A61D552C02AF1C00767CB0 /* CatApp.app */;
 			productType = "com.apple.product-type.application";
@@ -360,6 +376,9 @@
 				Base,
 			);
 			mainGroup = 08A61D4C2C02AF1C00767CB0;
+			packageReferences = (
+				08D0DB6A2C136DBD000F417C /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
+			);
 			productRefGroup = 08A61D562C02AF1C00767CB0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -426,6 +445,7 @@
 				08A61D8C2C02B6A200767CB0 /* NetworkManager.swift in Sources */,
 				08D0DB532C0E7A24000F417C /* ProfileView.swift in Sources */,
 				0835CF352C0A104700EB3848 /* CatPlaceholder.swift in Sources */,
+				08D0DB692C13521D000F417C /* FrameModifier.swift in Sources */,
 				08A61D592C02AF1C00767CB0 /* CatAppApp.swift in Sources */,
 				0835CF312C08DDBF00EB3848 /* NetworkService.swift in Sources */,
 				08A61D862C02B31D00767CB0 /* Cat.swift in Sources */,
@@ -766,6 +786,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		08D0DB6A2C136DBD000F417C /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08D0DB6B2C136DBE000F417C /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08D0DB6A2C136DBD000F417C /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 08A61D4D2C02AF1C00767CB0 /* Project object */;
 }

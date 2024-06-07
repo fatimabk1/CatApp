@@ -29,7 +29,7 @@ struct HomeScreenView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        ProfileView(profileService: viewModel.profileService, isLoggedIn: viewModel.isLoggedIn)
+                        ProfileView(profileService: viewModel.profileService, loginStatus: viewModel.loginStatus, isLoggedIn: viewModel.isLoggedIn)
                     } label: {
                         VStack {
                             Image(systemName: "person.circle.fill")
@@ -70,7 +70,7 @@ struct HomeScreenView: View {
                 .padding()
             }
         case .error:
-            BannerPlaceholder() // TODO: update w/error view
+            EmptyView()
         }
     }
     
@@ -98,7 +98,7 @@ struct HomeScreenView: View {
                 .padding()
             }
         case .error:
-            CategoryPlaceholder() // TODO: update w/error view
+            EmptyView()
         }
     }
     
@@ -115,7 +115,9 @@ struct HomeScreenView: View {
         
         switch viewModel.catStatus {
         case .empty:
-            EmptyView()
+            Text("No cats now - check back later!")
+                .font(.title)
+                .fontWeight(.bold)
         case .loading:
             LazyVGrid(columns: columns) {
                 ForEach(0..<4) { _ in
@@ -145,7 +147,7 @@ struct HomeScreenView: View {
                 .padding()
             }
         case .error:
-            CatPlaceholder() // TODO: update w/error view
+            EmptyView()
         }
     }
 }

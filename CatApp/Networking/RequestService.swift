@@ -60,6 +60,6 @@ final class RequestService {
     }
     
     private func needsAuthorization(endpoint: EndPoints) -> Bool {
-            return endpointsNeedingAuthorization.contains(where: { $0 == endpoint })
-        }
+        return endpointsNeedingAuthorization.contains(where: { $0 == endpoint })
+    }
 }

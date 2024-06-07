@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CachedAsyncImage
 
 struct RemoteImage: View {
     let picture: String
@@ -21,7 +22,7 @@ struct RemoteImage: View {
     var body: some View {
         Color.clear
             .background(
-                AsyncImage(url: URL(string: picture)) { phase in
+                CachedAsyncImage(url: URL(string: picture)) { phase in
                     switch phase {
                     case .success(let image):
                         image
@@ -52,34 +53,7 @@ struct RemoteImage: View {
     }
 }
 
-struct FrameModifier: ViewModifier {
-    let width: CGFloat?
-    let height: CGFloat?
-    
-    func body(content: Content) -> some View {
-        if let width, let height {
-            if width == .infinity || height == .infinity {
-                content.frame(maxWidth: width, maxHeight: height)
-            } else {
-                content.frame(width: width, height: height)
-            }
-        } else if let width {
-            if width == .infinity{
-                content.frame(maxWidth: width)
-            } else {
-                content.frame(width: width)
-            }
-        } else if let height {
-            if height == .infinity {
-                content.frame(maxHeight: height)
-            } else {
-                content.frame(height: height)
-            }
-        } else {
-            content
-        }
-    }
-}
+
 
 #Preview {
     ScrollView {

@@ -11,6 +11,7 @@ import Combine
 
 final class HomeScreenViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = false
+    @Published var loginStatus: LoadStatus = .empty
     
     @Published var banners: [Banner] = []
     @Published var cats: [Cat] = []
@@ -40,7 +41,6 @@ final class HomeScreenViewModel: ObservableObject {
         return cats.filter({$0.categories.contains(selectedCategory)})
     }
     
-    let title = "Cats"
     let networkService: NetworkManager
     let profileService: ProfileService
     private let keychain = KeychainAccess.standard
@@ -59,6 +59,13 @@ final class HomeScreenViewModel: ObservableObject {
         setupProfileServiceSubscriptions()
     }
     
+    func onCatLikeUnlike(catId: String) {
+        if isLoggedIn {
+            fetchUserLikes()
+            reloadCatItem(catId: catId)
+        }
+    }
+    
     private func setupProfileServiceSubscriptions() {
         profileService.isLoggedIn
             .sink { [weak self] isLoggedIn in
@@ -70,13 +77,13 @@ final class HomeScreenViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-    }
-    
-    func onCatLikeUnlike(catId: String) {
-        if isLoggedIn {
-            fetchUserLikes()
-            reloadCatItem(catId: catId)
-        }
+        
+        profileService.loginLoadStatus
+            .sink { [weak self] status in
+                self?.loginStatus = status
+            }
+            .store(in: &cancellables)
+        
     }
     
     private func reloadCatItem(catId: String) {
@@ -99,7 +106,7 @@ final class HomeScreenViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
                 if case .failure(_) = completion {
-                    //TODO: ERROR HANDLING
+                    print("fetchUserLikes() failed")
                 }
             }, receiveValue: { [weak self] (cats: [Cat]) in
                 self?.userLikes = Set(cats.map({$0.id}))
@@ -113,7 +120,6 @@ final class HomeScreenViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(_) = completion {
                     print("failed to complete - fetch cats")
-                    print(completion)
                     self?.catStatus = .error
                 }
             }, receiveValue: { [weak self] (cats: [Cat]) in

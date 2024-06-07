@@ -30,7 +30,7 @@ import Combine
 
 final class ProfileService: ObservableObject {
     var isLoggedIn = CurrentValueSubject<Bool, Never>(false)
-    var loginError = CurrentValueSubject<Bool, Never>(false)
+    var loginLoadStatus = CurrentValueSubject<LoadStatus, Never>(LoadStatus.empty)
     
     private let keychain = KeychainAccess.standard
     private let networkService: NetworkManager
@@ -38,22 +38,24 @@ final class ProfileService: ObservableObject {
     
     init(networkService: NetworkManager) {
         self.networkService = networkService
-        if let hasLogin = keychain.read(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue) {
+        if keychain.read(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue) != nil {
             self.isLoggedIn.send(true)
         }
     }
     
     func login() {
+        loginLoadStatus.send(.loading)
         networkService.login()
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case .failure(_) = completion {
-                    self?.loginError.send(true)
+                    self?.loginLoadStatus.send(.error)
                 }
             } receiveValue: { [weak self] token in
                 if let data = token.token.data(using: .utf8) {
                     self?.keychain.save(data, service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue)
                     self?.isLoggedIn.send(true)
+                    self?.loginLoadStatus.send(.loaded)
                 }
             }
             .store(in: &cancellables)

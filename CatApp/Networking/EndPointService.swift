@@ -10,9 +10,6 @@ import Foundation
 
 final class EndPointService {
     private let baseUrl             = "https://show-your-cat.onrender.com"
-    private let endpointLike        = "/like"           // endpoint: /cats/<cat_id>/like
-    private let endpointUnlike      = "/unlike"           // endpoint: /cats/<cat_id>/unlike
-    private let endpointUserLikes   = "/user/likes"
     
     func getURL(endpoint: EndPoints) -> Result<URL, NetworkError> {
         var urlComponents = URLComponents(string: baseUrl)!

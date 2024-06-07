@@ -30,7 +30,7 @@ struct CategoryView:  View {
                     .frame(width: 50, height: 50)
                     .foregroundStyle(.purple.opacity(isSelected ? 1.0 : 0.5))
                 
-                Text(category.capitalized) // TODO: move to VM?
+                Text(category.capitalized)
                     .font(.callout)
                     .foregroundStyle(.primary)
             }

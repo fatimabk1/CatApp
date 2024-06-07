@@ -8,23 +8,21 @@
 import SwiftUI
 
 
-
-
 struct CatView:  View {
     let viewModel: CatViewModel
     
     let cat: Cat
-    let onLikeUnlike: () -> Void
-    let isLoggedIn: Bool
     var categories: String {
         cat.categories.joined(separator: ", ").capitalized
     }
 
     init(cat: Cat, twoColumns: Bool, isLoggedIn: Bool, networkService: NetworkManager, isLiked: Bool, onLikeUnlike: @escaping () -> Void) {
         self.cat = cat
-        self.isLoggedIn = isLoggedIn
-        viewModel = CatViewModel(twoColumns: twoColumns, networkService: networkService, isLiked: isLiked)
-        self.onLikeUnlike = onLikeUnlike
+        viewModel = CatViewModel(twoColumns: twoColumns, 
+                                 networkService: networkService,
+                                 isLiked: isLiked,
+                                 onLikeUnlike: onLikeUnlike,
+                                 isLoggedIn: isLoggedIn)
     }
     
     var body: some View {
@@ -56,14 +54,14 @@ struct CatView:  View {
     
     private var likeButton: some View {
         Button {
-            if isLoggedIn {
+            if viewModel.isLoggedIn {
                 if viewModel.isLiked {
                     viewModel.unlike(catId: cat.id) {
-                        onLikeUnlike()
+                        viewModel.onLikeUnlike()
                     }
                 } else {
                     viewModel.like(catId: cat.id) {
-                        onLikeUnlike()
+                        viewModel.onLikeUnlike()
                     }
                 }
             }

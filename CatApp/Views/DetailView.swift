@@ -25,26 +25,34 @@ struct DetailView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     if viewModel.catDetailStatus == .loading {
-                        Image(systemName: "rectangle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .redacted(reason: .placeholder)
+                        VStack {
+                            Image(systemName: "rectangle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .redacted(reason: .placeholder)
+                            detailPlaceholder
+                        }
                     } else if viewModel.catDetailStatus == .loaded {
                         RemoteImage(picture: viewModel.picture, width: .infinity, height: 400)
-                    }
-                    
-                    if let cat = viewModel.cat {
-                        Text(cat.sex.capitalized)
-                            .font(.title)
-                            .padding()
-                        Text(viewModel.categories.capitalized)
-                            .font(.title)
-                            .padding()
-                        Text(cat.date)
-                            .font(.title)
-                            .padding()
-                    } else {
-                        detailPlaceholder
+                        if let cat = viewModel.cat {
+                            Text(cat.sex.capitalized)
+                                .font(.title)
+                                .padding()
+                            Text(viewModel.categories.capitalized)
+                                .font(.title)
+                                .padding()
+                            Text(cat.date)
+                                .font(.title)
+                                .padding()
+                        }
+                    } else if viewModel.catDetailStatus == .error {
+                        VStack {
+                            Text("Oops! Unable to load cat detail.")
+                                .font(.title)
+                                .padding()
+                            Spacer()
+    
+                        }
                     }
                 }
                 .padding()
@@ -73,7 +81,4 @@ struct DetailView: View {
 
 #Preview {
     DetailView(catId: "a233d4f2", networkService: NetworkService())
-//    DetailView(catId: "ad4f2", networkService: NetworkService())
-        // TODO: ADD display for Error
-
 }
