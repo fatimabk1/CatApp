@@ -21,8 +21,6 @@ final class NetworkService: NetworkManager {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 guard let urlResponse = result.response as? HTTPURLResponse, (200...299).contains(urlResponse.statusCode) else {
-                    print(result.response)
-                    print(try decoder.decode(T.self, from: result.data))
                     throw NetworkError.invalidResponse
                 }
                 
@@ -50,8 +48,6 @@ final class NetworkService: NetworkManager {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 guard let urlResponse = result.response as? HTTPURLResponse, (200...299).contains(urlResponse.statusCode) else {
-                    print(result.response)
-                    print(try decoder.decode(String.self, from: result.data))
                     throw NetworkError.invalidResponse
                 }
             }

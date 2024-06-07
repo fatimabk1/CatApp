@@ -10,6 +10,8 @@ import Combine
 
 
 final class HomeScreenViewModel: ObservableObject {
+    @Published var isLoggedIn: Bool = false
+    
     @Published var banners: [Banner] = []
     @Published var cats: [Cat] = []
     @Published var categories: [String] = []
@@ -40,34 +42,56 @@ final class HomeScreenViewModel: ObservableObject {
     
     let title = "Cats"
     let networkService: NetworkManager
+    let profileService: ProfileService
     private let keychain = KeychainAccess.standard
     private var cancellables = Set<AnyCancellable>()
     
-    init(networkService: NetworkManager = NetworkService()) {
+    init(networkService: NetworkManager = NetworkService(), profileService: ProfileService) {
         self.networkService = networkService
         self.twoColumnsCache = UserDefaults.standard.bool(forKey: "twoColumns")
+        self.profileService = profileService
     }
     
     func handleOnAppear() {
         fetchCats()
         fetchBanners()
         fetchUserLikes()
+        setupProfileServiceSubscriptions()
     }
     
-    func isLoggedIn() -> Bool {
-        print("checking if logged in")
-        if keychain.read(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue) != nil {
-            return true
-        }
-        return false
+    private func setupProfileServiceSubscriptions() {
+        profileService.isLoggedIn
+            .sink { [weak self] isLoggedIn in
+                self?.isLoggedIn = isLoggedIn
+                if !isLoggedIn {
+                    self?.userLikes = []
+                } else {
+                    self?.fetchUserLikes()
+                }
+            }
+            .store(in: &cancellables)
     }
     
-    func onCatLikeUnlike() {
-        if isLoggedIn() {
+    func onCatLikeUnlike(catId: String) {
+        if isLoggedIn {
             fetchUserLikes()
-        } else {
-            print("onCatLikeUnlike - not loggedIn")
+            reloadCatItem(catId: catId)
         }
+    }
+    
+    private func reloadCatItem(catId: String) {
+        networkService.fetchCatDetail(catId: catId)
+            .receive(on: RunLoop.main)
+            .sink { completion in
+                if  case .failure(_) = completion {
+                    print("Error reloading cat item")
+                }
+            } receiveValue: { [weak self] cat in
+                if let index = self?.cats.firstIndex(where: {$0.id == cat.id}) {
+                    self?.cats[index] = cat
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func fetchUserLikes() {
@@ -78,7 +102,6 @@ final class HomeScreenViewModel: ObservableObject {
                     //TODO: ERROR HANDLING
                 }
             }, receiveValue: { [weak self] (cats: [Cat]) in
-                print("onCatLikeUnlike: user like count = \(cats.count)")
                 self?.userLikes = Set(cats.map({$0.id}))
             })
             .store(in: &cancellables)

@@ -31,7 +31,6 @@ final class CatViewModel: ObservableObject {
                     print("completion failure")
                 }
             } receiveValue: { _ in
-                print("CatViewModel.like() - complete")
                 completion()
             }
             .store(in: &cancellables)
@@ -44,7 +43,6 @@ final class CatViewModel: ObservableObject {
                     // TODO: DO SOMETHING?
                 }
             } receiveValue: { _ in
-                print("CatViewModel.like() - unlike")
                 completion()
             }
             .store(in: &cancellables)

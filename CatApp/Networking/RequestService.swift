@@ -21,9 +21,6 @@ final class RequestService {
         configureBody()
         configureHeader()
         
-        print("Request Configured...")
-        print(request)
-        
         if let request {
             return .success(request)
         }
@@ -54,16 +51,11 @@ final class RequestService {
     private func configureHeader() {
         guard let endpoint else { return }
         if needsAuthorization(endpoint: endpoint) {
-            // TODO: REPLACE WITH VARIABLE ACCESS TOKEN
             let token = KeychainAccess.standard.read(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue)
+            
             if let token, let tokenString = String(data: token, encoding: .utf8) {
-                print("Bearer Token: \(tokenString)") // Debug print
                 request?.addValue("Bearer \(tokenString)", forHTTPHeaderField: "Authorization")
-            } else {
-                print("token not found or invalid")
             }
-        } else {
-            print("authorization not required")
         }
     }
     

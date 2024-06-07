@@ -10,11 +10,9 @@ import SwiftUI
 
 struct HomeScreenView: View {
     @ObservedObject var viewModel: HomeScreenViewModel
-    @ObservedObject var profileViewModel: ProfileViewModel
     
     init(networkService: NetworkManager) {
-        self.viewModel = HomeScreenViewModel(networkService: networkService)
-        self.profileViewModel = ProfileViewModel(networkService: networkService)
+        self.viewModel = HomeScreenViewModel(networkService: networkService, profileService: ProfileService(networkService: networkService))
     }
     
     
@@ -31,7 +29,7 @@ struct HomeScreenView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        ProfileView(viewModel: profileViewModel)
+                        ProfileView(profileService: viewModel.profileService, isLoggedIn: viewModel.isLoggedIn)
                     } label: {
                         VStack {
                             Image(systemName: "person.circle.fill")
@@ -137,9 +135,9 @@ struct HomeScreenView: View {
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach(viewModel.filteredCats, id: \.id) { cat in
-                            CatView(cat: cat, twoColumns: viewModel.twoColumns, isLoggedIn: profileViewModel.isLoggedIn, networkService: viewModel.networkService , isLiked: viewModel.userLikes.contains(cat.id))
+                            CatView(cat: cat, twoColumns: viewModel.twoColumns, isLoggedIn: viewModel.isLoggedIn, networkService: viewModel.networkService , isLiked: viewModel.userLikes.contains(cat.id))
                             {
-                                viewModel.onCatLikeUnlike()
+                                viewModel.onCatLikeUnlike(catId: cat.id)
                             }
                         }
                     }
@@ -156,9 +154,3 @@ struct HomeScreenView: View {
 #Preview {
     HomeScreenView(networkService: NetworkService())
 }
-
- 
-/*
- POA
- - profile screen w/disabled login button
- */

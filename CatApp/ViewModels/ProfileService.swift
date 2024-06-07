@@ -1,5 +1,5 @@
 //
-//  ProfileViewModel.swift
+//  ProfileService.swift
 //  CatApp
 //
 //  Created by Fatima Kahbi on 6/6/24.
@@ -28,9 +28,9 @@ import Combine
  */
 
 
-final class ProfileViewModel: ObservableObject {
-    @Published var isLoggedIn: Bool = false
-    @Published var loginError: Bool = false
+final class ProfileService: ObservableObject {
+    var isLoggedIn = CurrentValueSubject<Bool, Never>(false)
+    var loginError = CurrentValueSubject<Bool, Never>(false)
     
     private let keychain = KeychainAccess.standard
     private let networkService: NetworkManager
@@ -38,6 +38,9 @@ final class ProfileViewModel: ObservableObject {
     
     init(networkService: NetworkManager) {
         self.networkService = networkService
+        if let hasLogin = keychain.read(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue) {
+            self.isLoggedIn.send(true)
+        }
     }
     
     func login() {
@@ -45,13 +48,12 @@ final class ProfileViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case .failure(_) = completion {
-                    self?.loginError = true
+                    self?.loginError.send(true)
                 }
             } receiveValue: { [weak self] token in
                 if let data = token.token.data(using: .utf8) {
-                    print("Login successful. Bearer Token: \n\(data)")
                     self?.keychain.save(data, service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue)
-                    self?.isLoggedIn = true
+                    self?.isLoggedIn.send(true)
                 }
             }
             .store(in: &cancellables)
@@ -59,7 +61,7 @@ final class ProfileViewModel: ObservableObject {
     
     func logout() {
         keychain.delete(service: KeychainTokenKey.service.rawValue, account: KeychainTokenKey.account.rawValue)
-        isLoggedIn = false
+        isLoggedIn.send(false)
     }
     
     

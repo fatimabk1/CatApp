@@ -8,23 +8,23 @@
 import SwiftUI
 
 
-
 struct ProfileView: View {
-    @ObservedObject var viewModel: ProfileViewModel
+    @ObservedObject var profileService: ProfileService
+    let isLoggedIn: Bool
     
     var body: some View {
         Button {
-            if viewModel.isLoggedIn {
-                viewModel.logout()
+            if isLoggedIn {
+                profileService.logout()
             } else {
-                viewModel.login()
+                profileService.login()
             }
         } label: {
-            Text(viewModel.isLoggedIn ? "Log Out" : "Log In")
+            Text(isLoggedIn ? "Log Out" : "Log In")
         }
     }
 }
 
 #Preview {
-    ProfileView(viewModel: ProfileViewModel(networkService: NetworkService()))
+    ProfileView(profileService: ProfileService(networkService: NetworkService()), isLoggedIn: true)
 }

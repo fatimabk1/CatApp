@@ -57,22 +57,15 @@ struct CatView:  View {
     private var likeButton: some View {
         Button {
             if isLoggedIn {
-                print("logged in, selected like button")
                 if viewModel.isLiked {
-                    print("currently liked - starting unlike")
                     viewModel.unlike(catId: cat.id) {
-                        print("unlike complete, now refreshing")
                         onLikeUnlike()
                     }
                 } else {
-                    print("currently unliked - starting like")
                     viewModel.like(catId: cat.id) {
-                        print("unlike complete, now refreshing")
                         onLikeUnlike()
                     }
                 }
-            } else {
-                print("Button tap - not logged in")
             }
         } label: {
             Image(systemName: viewModel.isLiked ? "heart.fill" : "heart")

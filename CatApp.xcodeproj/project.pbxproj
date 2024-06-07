@@ -38,7 +38,7 @@
 		08D0DB5B2C120E7C000F417C /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB5A2C120E7C000F417C /* RequestService.swift */; };
 		08D0DB5D2C1216BD000F417C /* BearerToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB5C2C1216BD000F417C /* BearerToken.swift */; };
 		08D0DB602C123EDB000F417C /* KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB5F2C123EDB000F417C /* KeychainAccess.swift */; };
-		08D0DB622C12459E000F417C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB612C12459E000F417C /* ProfileViewModel.swift */; };
+		08D0DB622C12459E000F417C /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB612C12459E000F417C /* ProfileService.swift */; };
 		08D0DB642C124CA8000F417C /* CatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB632C124CA8000F417C /* CatViewModel.swift */; };
 		08D0DB662C12822D000F417C /* KeychainTokenKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D0DB652C12822D000F417C /* KeychainTokenKey.swift */; };
 /* End PBXBuildFile section */
@@ -95,7 +95,7 @@
 		08D0DB5A2C120E7C000F417C /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		08D0DB5C2C1216BD000F417C /* BearerToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BearerToken.swift; sourceTree = "<group>"; };
 		08D0DB5F2C123EDB000F417C /* KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainAccess.swift; sourceTree = "<group>"; };
-		08D0DB612C12459E000F417C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		08D0DB612C12459E000F417C /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		08D0DB632C124CA8000F417C /* CatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatViewModel.swift; sourceTree = "<group>"; };
 		08D0DB652C12822D000F417C /* KeychainTokenKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTokenKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -235,7 +235,7 @@
 			children = (
 				08A61D952C02BAA600767CB0 /* HomeScreenViewModel.swift */,
 				0835CF282C08CBFF00EB3848 /* DetailViewModel.swift */,
-				08D0DB612C12459E000F417C /* ProfileViewModel.swift */,
+				08D0DB612C12459E000F417C /* ProfileService.swift */,
 				08D0DB632C124CA8000F417C /* CatViewModel.swift */,
 			);
 			path = ViewModels;
@@ -406,7 +406,7 @@
 				08D0DB642C124CA8000F417C /* CatViewModel.swift in Sources */,
 				08D0DB5B2C120E7C000F417C /* RequestService.swift in Sources */,
 				08A61D8F2C02B6F800767CB0 /* MockNetworkManager.swift in Sources */,
-				08D0DB622C12459E000F417C /* ProfileViewModel.swift in Sources */,
+				08D0DB622C12459E000F417C /* ProfileService.swift in Sources */,
 				08D0DB662C12822D000F417C /* KeychainTokenKey.swift in Sources */,
 				08D0DB592C10D6C5000F417C /* NetworkError.swift in Sources */,
 				0835CF2F2C08D3D800EB3848 /* CategoryView.swift in Sources */,
